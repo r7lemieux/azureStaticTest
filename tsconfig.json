@@ -7,14 +7,6 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
-		"paths": {
-			"$lib": [
-				"../src/lib"
-			],
-			"$lib/*": [
-				"../src/lib/*"
-			]
-		},
 		"rootDir": "/",
 		"lib": [
 			"esnext"
@@ -25,6 +17,8 @@
 	"moduleResolution": "nodenext",
 	"compileOnSave": true,
 	"include": [
+		"./server.ts",
+		"./server.js",
 		"./src/**/*.js",
 		"./src/**/*.ts",
 		"./public/**/*"
