@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <link rel="icon" href="https://portal.shoprunner.com/branding_logo.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <!--  <script data-main="scripts/main" src="scripts/require.js"></script>-->
+  <!--  <script src="lib/require.js"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div class="page">
+  <h2>Test Azure Blob Storage</h2>
+  <div class="test"><button name="loadBut" id="storage75024">Load 75024 from storage</button><span></span></div>
+  <div class="test"><button name="loadBut" id="storage7502">Load 7502 from storage</button><span></span></div>
+  <div class="test"><button name="loadBut" id="storage750">Load 750 from storage </button><span></span></div>
+  <div class="test"><button name="loadBut" id="storage75">Load 75 from storage</button><span></span></div>
+  <div class="test"><button name="loadBut" id="storage7">Load 7 from storage</button><span></span></div>
+  <div class="test"><button name="loadBut" id="storage">Load all from storage</button><span></span></div>
+  <h2>Test static app</h2>
+  <div class="test"><button name="loadBut" id="webFile75024">Load 75024 from static</button><span></span></div>
+  <div class="test"><button name="loadBut" id="webFile7502">Load 7502 from static</button><span></span></div>
+  <div class="test"><button name="loadBut" id="webFile750">Load 750 from static </button><span></span></div>
+  <div class="test"><button name="loadBut" id="webFile75">Load 75 from static</button><span></span></div>
+  <div class="test"><button name="loadBut" id="webFile7">Load 7 from static</button><span></span></div>
+  <div class="test"><button name="loadBut" id="webFile">Load all from static</button><span></span></div>
+  <h2>Test app</h2>
+  <div class="test"><button name="loadBut" id="webAppl75024">Load 75024 from app</button><span></span></div>
+  <div class="test"><button name="loadBut" id="webAppl7502">Load 7502 from app</button><span></span></div>
+  <div class="test"><button name="loadBut" id="webAppl750">Load 750 from app </button><span></span></div>
+  <div class="test"><button name="loadBut" id="webAppl75">Load 75 from app</button><span></span></div>
+  <div class="test"><button name="loadBut" id="webAppl7">Load 7 from app</button><span></span></div>
+  <div class="test"><button name="loadBut" id="webAppl">Load all from app</button><span></span></div>
+</div>
+
+<script lang="js">
+  console.log(`==>index.html:19 axios `, axios)
+  document.getElementsByName('loadBut').forEach(el => {
+    el.addEventListener('click', loadFile)
+  })
+
+  function loadFile(event) {
+    const target = event.srcElement
+    console.log(`==>index.html:28 target`, target)
+    const id = target.getAttribute('id')
+    const zip = id.substring(7)
+    console.log(`==>index.html:23 zip `, zip)
+    const src = id.substring(0, 7)
+    console.log(`==>index.html:42 src`, src)
+
+    let url
+    if (src === 'storage') {
+      url = `https://r7lemieux10.z20.web.core.windows.net/`
+    } else if (src === 'webFile') {
+      url = `/`
+    } else if (src === 'webAppl') {
+      url = 'body/'
+    } else {
+      return
+    }
+    url = url + 'chewy' + zip
+    const getOptions = {
+      url,
+      method: 'get'
+    }
+    let time = 0
+    const time0 = Date.now().valueOf()
+    console.log(`==>index.html:45 time0`, time0)
+    axios(getOptions)
+      .then(function (response) {
+        const time1 = Date.now().valueOf()
+        console.log(`==>index.html:45 time1`, time1)
+        time = time1 - time0
+        console.log(`==>index.html:50 time`, time)
+        const timeSpan = target.parentNode.childNodes[1].innerText = time
+        console.log(`==>index.html:50  from timeSpan`, timeSpan)
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {
+      });
+  }
+</script>
+<style>
+    .page {
+        width: 800px;
+        display: flex;
+        flex-direction: column;
+        /*align-items: center;*/
+    }
+    button {
+        height: 30px;
+        padding: 0 5px;
+        width: 200px;
+        margin: 5px
+    }
+    .test {
+        display: flex;
+        float: right;
+        flex-direction: row;
+        align-items: center;
+    }
+    .test span {
+        text-align: right;
+        width: 50px;
+    }
+</style>
+</body>
+</html>
