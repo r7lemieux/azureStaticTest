@@ -1,3 +1,3 @@
 # azureStaticTest
 
-test various ways to server a static file in Azure
+test various ways to serve a static file in Azure
