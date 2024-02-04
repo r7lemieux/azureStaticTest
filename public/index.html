@@ -11,26 +11,26 @@
 <body>
 <div class="page">
   <h2>Test Azure Blob Storage</h2>
-  <div class="test"><button name="loadBut" id="storage75024">Load 75024 from storage</button><span></span></div>
-  <div class="test"><button name="loadBut" id="storage7502">Load 7502 from storage</button><span></span></div>
-  <div class="test"><button name="loadBut" id="storage750">Load 750 from storage </button><span></span></div>
-  <div class="test"><button name="loadBut" id="storage75">Load 75 from storage</button><span></span></div>
-  <div class="test"><button name="loadBut" id="storage7">Load 7 from storage</button><span></span></div>
-  <div class="test"><button name="loadBut" id="storage">Load all from storage</button><span></span></div>
+  <div class="test"><button name="loadBut" id="storage75024">Load 75024 from storage</button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="storage7502">Load 7502 from storage</button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="storage750">Load 750 from storage </button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="storage75">Load 75 from storage</button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="storage7">Load 7 from storage</button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="storage">Load all from storage</button><span name="avg"></span><span name="measure"></span></div>
   <h2>Test static app</h2>
-  <div class="test"><button name="loadBut" id="webFile75024">Load 75024 from static</button><span></span></div>
-  <div class="test"><button name="loadBut" id="webFile7502">Load 7502 from static</button><span></span></div>
-  <div class="test"><button name="loadBut" id="webFile750">Load 750 from static </button><span></span></div>
-  <div class="test"><button name="loadBut" id="webFile75">Load 75 from static</button><span></span></div>
-  <div class="test"><button name="loadBut" id="webFile7">Load 7 from static</button><span></span></div>
-  <div class="test"><button name="loadBut" id="webFile">Load all from static</button><span></span></div>
+  <div class="test"><button name="loadBut" id="webFile75024">Load 75024 from static</button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="webFile7502">Load 7502 from static</button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="webFile750">Load 750 from static </button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="webFile75">Load 75 from static</button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="webFile7">Load 7 from static</button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="webFile">Load all from static</button><span name="avg"></span><span name="measure"></span></div>
   <h2>Test app</h2>
-  <div class="test"><button name="loadBut" id="webAppl75024">Load 75024 from app</button><span></span></div>
-  <div class="test"><button name="loadBut" id="webAppl7502">Load 7502 from app</button><span></span></div>
-  <div class="test"><button name="loadBut" id="webAppl750">Load 750 from app </button><span></span></div>
-  <div class="test"><button name="loadBut" id="webAppl75">Load 75 from app</button><span></span></div>
-  <div class="test"><button name="loadBut" id="webAppl7">Load 7 from app</button><span></span></div>
-  <div class="test"><button name="loadBut" id="webAppl">Load all from app</button><span></span></div>
+  <div class="test"><button name="loadBut" id="webAppl75024">Load 75024 from app</button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="webAppl7502">Load 7502 from app</button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="webAppl750">Load 750 from app </button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="webAppl75">Load 75 from app</button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="webAppl7">Load 7 from app</button><span name="avg"></span><span name="measure"></span></div>
+  <div class="test"><button name="loadBut" id="webAppl">Load all from app</button><span name="avg"></span><span name="measure"></span></div>
 </div>
 
 <script lang="js">
@@ -38,7 +38,8 @@
   document.getElementsByName('loadBut').forEach(el => {
     el.addEventListener('click', loadFile)
   })
-
+  timesForId = {}
+  averages = {}
   function loadFile(event) {
     const target = event.srcElement
     console.log(`==>index.html:28 target`, target)
@@ -69,7 +70,12 @@
       .then(function (response) {
         const time1 = Date.now().valueOf()
         time = time1 - time0
-        const timeSpan = target.parentNode.childNodes[1].innerText = time
+        if (!timesForId[id]) timesForId[id] = []
+        const times = timesForId[id]
+        times.push(time)
+        averages[id] = times.reduce((sum, t) => sum += t, 0) / times.length
+        target.parentNode.childNodes[1].innerText = Math.floor(averages[id])
+        target.parentNode.childNodes[2].innerText =  times.join(' ')
       })
       .catch(function (error) {
         console.log(error);
@@ -80,7 +86,7 @@
 </script>
 <style>
     .page {
-        width: 800px;
+        width: 1000px;
         display: flex;
         flex-direction: column;
         /*align-items: center;*/
@@ -97,9 +103,12 @@
         flex-direction: row;
         align-items: center;
     }
-    .test span {
+    .test span[name="avg"] {
         text-align: right;
         width: 50px;
+        margin: 0 10px 0 0;
+        font-weight: bold;
+        color: #060
     }
 </style>
 </body>
