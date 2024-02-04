@@ -21,7 +21,4 @@
 		"./src/**/*.ts",
 		"./public/**/*"
 	],
-//	"exclude": [
-//		"../node_modules/**"
-//	]
 }
