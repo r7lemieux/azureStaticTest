@@ -1,7 +1,9 @@
-import * as express from 'express';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as bodyParser from 'body-parser';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 3000;
 // app.use(app.router);

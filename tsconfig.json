@@ -3,7 +3,7 @@
 		"allowJs": true,
 		"checkJs": true,
 		"forceConsistentCasingInFileNames": true,
-		"allowSyntheticDefaultImports": true,
+		"module": "commonJS",
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
@@ -11,10 +11,8 @@
 		"lib": [
 			"esnext"
 		],
-		"target": "esnext"
+		"target": "es6"
 	},
-	"module": "ESNext",
-	"moduleResolution": "nodenext",
 	"compileOnSave": true,
 	"include": [
 		"./server.ts",
