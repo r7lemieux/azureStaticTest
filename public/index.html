@@ -65,16 +65,11 @@
     }
     let time = 0
     const time0 = Date.now().valueOf()
-    console.log(`==>index.html:45 time0`, time0)
     axios(getOptions)
       .then(function (response) {
         const time1 = Date.now().valueOf()
-        console.log(`==>index.html:45 time1`, time1)
         time = time1 - time0
-        console.log(`==>index.html:50 time`, time)
         const timeSpan = target.parentNode.childNodes[1].innerText = time
-        console.log(`==>index.html:50  from timeSpan`, timeSpan)
-        console.log(response);
       })
       .catch(function (error) {
         console.log(error);
